@@ -19,6 +19,7 @@
       <li><button><a href="Route72.html">Route 72</a></button></li>
       <li><button>Route 89</button></li>
       <li><button>Route 10</button></li>
+      <li><button><a href="Buses.html">Buses</button></li>
     </ul>
   </nav>
 
