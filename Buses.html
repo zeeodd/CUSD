@@ -94,11 +94,13 @@
           var i;
           var markers;
           for (i = 0; i < msg.length; i++) {
+            if (msg[i].RouteID == )
             var address = [msg[i].Latitude, msg[i].Longitude];
             var position = new google.maps.LatLng(address[0], address[1]);
             marker = new google.maps.Marker({
               position: position,
-              map: map
+              map: map,
+              animation: google.maps.Animation.BOUNCE
             })
           }
       }
