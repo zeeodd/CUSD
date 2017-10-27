@@ -93,16 +93,21 @@
           var bounds = new google.maps.LatLngBounds();
           var i;
           var markers;
+          var image;
           for (i = 0; i < msg.length; i++) {
             //if (msg[i].RouteID == )
             var address = [msg[i].Latitude, msg[i].Longitude];
             var position = new google.maps.LatLng(address[0], address[1]);
-            var image = './images/bus-icon.png'
+            if (msg[i].Direction == 'O') {
+              image = './images/bus-icon-outbound.png'
+            } else {
+              image = './images/bus-icon-inbound.png'
+            }
             marker = new google.maps.Marker({
               position: position,
               map: map,
               icon: image,
-              animation: google.maps.Animation.BOUNCE
+              animation: google.maps.Animation.DROP
             });
           }
       }
