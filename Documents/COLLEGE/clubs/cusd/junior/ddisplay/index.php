@@ -7,12 +7,6 @@
   <link rel="stylesheet" type="text/css" href="styles/all.css" media="all"/>
 </head>
 
-<script language="javascript">
-    setTimeout(function(){
-        window.location.reload(forceGet = true);
-    }, 5000); 
-</script>
-
 <body>
 
   <div id="header">
