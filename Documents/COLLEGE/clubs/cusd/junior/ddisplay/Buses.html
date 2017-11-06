@@ -47,12 +47,12 @@
           type: 'GET',
           dataType: 'json',
           beforeSend: function(xhr) {
-            //xhr.setRequestHeader("Authorization", token);
+            xhr.setRequestHeader("Authorization", token);
           },
           //data: 'json=' + escape(JSON.stringify(createRequestObject)),
           success: function(msg) {
             var data = JSON.stringify(msg);
-            console.log(msg);
+            //console.log(msg);
             MapRoute(msg);
             //$("#orders").text(data);
           },
@@ -110,7 +110,7 @@
   </div>
 </head>
 <body>
-<div id ="map" style="height: 720px">
+<div id ="map" style="height: 600px">
 </div>
       <li>The next Route 30 bus will be arriving in y minutes.</li>
     </ul>
