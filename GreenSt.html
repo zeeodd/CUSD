@@ -29,7 +29,6 @@
   </div>
 
   <div id="map_it">
-
     <ul>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type='text/javascript'>
@@ -60,10 +59,14 @@
         },
         //data: 'json=' + escape(JSON.stringify(createRequestObject)),
         success: function(msg) {
+          //var markers = [];
           var data = JSON.stringify(msg);
           console.log(msg);
           console.log("here");
           MapRoute(msg);
+          setTimeout(function(){
+            DeleteMarkers();
+          }, 2000); 
           $("#orders").text(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -80,8 +83,9 @@
     <script language="javascript" type="text/javascript">
 
       var map;
-
+      var markers = [];
       function MapRoute(msg) {
+
         var latlng = new google.maps.LatLng(42.46, -76.496506);
         var myOptions =
         {
@@ -93,11 +97,9 @@
         map = new google.maps.Map(document.getElementById("map"), myOptions);
         var bounds = new google.maps.LatLngBounds();
         var i;
-        var markers;
         var image;
         var greenstreet = [11, 14, 17, 20, 21, 30, 31, 32, 36, 37, 40, 43, 51, 52, 53, 65, 67, 90];
         for (i = 0; i < msg.length; i++) {
-          console.log(msg[i].RouteId);
           if (greenstreet.includes(msg[i].RouteId)) {
             var address = [msg[i].Latitude, msg[i].Longitude];
             var position = new google.maps.LatLng(address[0], address[1]);
@@ -112,9 +114,19 @@
               icon: image,
               animation: google.maps.Animation.DROP
             });
+            markers.push(marker);
           }
         }
       }
+
+
+    function DeleteMarkers() {
+        //Loop through all the markers and remove
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers = [];
+    };
       
 
 
