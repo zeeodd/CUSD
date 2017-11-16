@@ -20,6 +20,7 @@
       <li><button>Route 89</button></li>
       <li><button><a href ="GreenSt.html">Green Street</a></button></li>
       <li><button><a href="Buses.html">Buses</a></button></li>
+      <li><button><a href="timetable.html">TimeTable</a></button></li>
     </ul>
   </nav>
 
@@ -51,7 +52,7 @@
     $(document).ready(function () {
       var token = 'Bearer e5159b89-86c1-3cca-8412-59de037c674b';
       $.ajax({
-        url: 'https://gateway.api.cloud.wso2.com:443/t/mystop/tcat/v1/rest/Vehicles/GetAllVehicles',
+        url: 'https://gateway.api.cloud.wso2.com:443/t/mystop/tcat/v1/rest/StopDepartures/Get/165',
         type: 'GET',
         dataType: 'json',
         beforeSend: function(xhr) {
@@ -62,10 +63,7 @@
           //var markers = [];
           var data = JSON.stringify(msg);
           console.log(msg);
-          MapRoute(msg);
-          setTimeout(function(){
-            location.reload();
-          }, 10000); 
+          TimeTable(msg);
           $("#orders").text(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -77,70 +75,13 @@
     });
 
     </script>
-
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZtZePBTLXPSvNiZL3wPoNmbAugSiJdWc&callback=initMap"></script>
-    <script language="javascript" type="text/javascript">
-
-      var map;
-      var markers = [];
-      function MapRoute(msg) {
-
-        var latlng = new google.maps.LatLng(42.46, -76.496506);
-        var myOptions =
-        {
-            zoom: 13,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDefaultUI: true
-        };
-        map = new google.maps.Map(document.getElementById("map"), myOptions);
-        var bounds = new google.maps.LatLngBounds();
-        var i;
-        var image;
-        var greenstreet = [11, 14, 17, 20, 21, 30, 31, 32, 36, 37, 40, 43, 51, 52, 53, 65, 67, 90];
-        for (i = 0; i < msg.length; i++) {
-          if (greenstreet.includes(msg[i].RouteId)) {
-            var address = [msg[i].Latitude, msg[i].Longitude];
-            var position = new google.maps.LatLng(address[0], address[1]);
-            if (msg[i].Direction == 'O') {
-              image = './images/bus-icon-outbound.png'
-            } else {
-              image = './images/bus-icon-inbound.png'
-            }
-            marker = new google.maps.Marker({
-              position: position,
-              map: map,
-              icon: image,
-              animation: google.maps.Animation.DROP
-            });
-            markers.push(marker);
-          }
-        }
-      }
+  <script language="javascript" type="text/javascript">
 
 
-    function DeleteMarkers() {
-        //Loop through all the markers and remove
-        for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(null);
-        }
-        markers = [];
-    };
-
-    //function Button1_onclick() {
-    //    FindLocaton();
-    //}
-    </script>
+    function TimeTable(msg) {
+      $date = (msg[0].RouteDirections[0].Departures[0].ETA);
+      preg_match('/(\d{10})(\d{3})([\+\-]\d{4})/', $date, $matches);
+      $dt = DateTime::createFromFormat("U.u.O",vsprintf('%2$s.%3$s.%4$s', $matches));
+      echo $dt->format('r');
     }
-  </ul>
-  </div>
-</head>
-<body>
-<div id ="map" style="height: 720px">
-</div>
-      <li>The next Route 30 bus will be arriving in y minutes.</li>
-    </ul>
-</div>
-<div id='orders'></div>
-</body>
-</html>
+</script>
